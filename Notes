@@ -1,0 +1,23 @@
+SprintFlow/
+├── SprintFlow.Api             → ASP.NET Core entry point (Controllers, DI setup)
+├── SprintFlow.Application     → Business logic (Use Cases, Interfaces)
+├── SprintFlow.Domain          → Core entities, Enums, interfaces
+├── SprintFlow.Infrastructure  → Data access (In-Memory for now, EF later)
+
+dotnet new webapi -n SprintFlow.Api
+dotnet new classlib -n SprintFlow.Application
+dotnet new classlib -n SprintFlow.Domain
+dotnet new classlib -n SprintFlow.Infrastructure
+
+cd SprintFlow.Api
+dotnet add reference ../SprintFlow.Application/SprintFlow.Application.csproj
+dotnet add reference ../SprintFlow.Domain/SprintFlow.Domain.csproj
+dotnet add reference ../SprintFlow.Infrastructure/SprintFlow.Infrastructure.csproj
+
+cd ../SprintFlow.Infrastructure
+dotnet add reference ../SprintFlow.Application/SprintFlow.Application.csproj
+dotnet add reference ../SprintFlow.Domain/SprintFlow.Domain.csproj
+
+Step 1: Install Swagger NuGet Package
+From the root of your SprintFlow.Api project, run:
+dotnet add package Swashbuckle.AspNetCore
