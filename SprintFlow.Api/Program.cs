@@ -1,5 +1,6 @@
 // SprintFlow.Api/Program.cs
-using SprintFlow.Application.Interfaces;
+using SprintFlow.Domain.Interfaces;
+using SprintFlow.Application.Services;
 using SprintFlow.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,8 @@ builder.Services.AddSwaggerGen();
 
 // 🔧 Register InMemory Repository
 builder.Services.AddSingleton<IProjectRepository, InMemoryProjectRepository>();
+
+builder.Services.AddScoped<ProjectService>();
 
 var app = builder.Build();
 

@@ -1,21 +1,21 @@
-// SprintFlow.Infrastructure/Repositories/InMemoryProjectRepository.cs
-using SprintFlow.Application.Interfaces;
 using SprintFlow.Domain.Entities;
+using SprintFlow.Domain.Interfaces;
+using System.Collections.Generic;
 
-namespace SprintFlow.Infrastructure.Repositories;
-
-public class InMemoryProjectRepository : IProjectRepository
+namespace SprintFlow.Infrastructure.Repositories
 {
-    private readonly List<Project> _projects = new();
-
-    public Task<IEnumerable<Project>> GetAllAsync() => Task.FromResult(_projects.AsEnumerable());
-
-    public Task<Project?> GetByIdAsync(Guid id) =>
-        Task.FromResult(_projects.FirstOrDefault(p => p.Id == id));
-
-    public Task AddAsync(Project project)
+    public class InMemoryProjectRepository : IProjectRepository
     {
-        _projects.Add(project);
-        return Task.CompletedTask;
+        private readonly List<Project> _projects = new();
+
+        public void Add(Project project)
+        {
+            _projects.Add(project);
+        }
+
+        public IEnumerable<Project> GetAll()
+        {
+            return _projects;
+        }
     }
 }

@@ -1,26 +1,32 @@
-// SprintFlow.Api/Controllers/ProjectsController.cs
 using Microsoft.AspNetCore.Mvc;
-using SprintFlow.Application.Interfaces;
 using SprintFlow.Domain.Entities;
+using SprintFlow.Application.Services;
 
-[ApiController]
-[Route("api/[controller]")]
-public class ProjectsController : ControllerBase
+namespace SprintFlow.WebAPI.Controllers
 {
-    private readonly IProjectRepository _repo;
-
-    public ProjectsController(IProjectRepository repo)
+    [ApiController]
+    [Route("api/[controller]")]
+    public class ProjectController : ControllerBase
     {
-        _repo = repo;
-    }
+        private readonly ProjectService _projectService;
 
-    [HttpGet]
-    public async Task<IActionResult> Get() => Ok(await _repo.GetAllAsync());
+        public ProjectController(ProjectService projectService)
+        {
+            _projectService = projectService;
+        }
 
-    [HttpPost]
-    public async Task<IActionResult> Create([FromBody] Project project)
-    {
-        await _repo.AddAsync(project);
-        return CreatedAtAction(nameof(Get), new { id = project.Id }, project);
+        [HttpPost]
+        public IActionResult Create(Project project)
+        {
+            _projectService.CreateProject(project);
+            return Ok(project);
+        }
+
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var projects = _projectService.GetProjects();
+            return Ok(projects);
+        }
     }
 }
