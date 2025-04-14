@@ -21,3 +21,58 @@ dotnet add reference ../SprintFlow.Domain/SprintFlow.Domain.csproj
 Step 1: Install Swagger NuGet Package
 From the root of your SprintFlow.Api project, run:
 dotnet add package Swashbuckle.AspNetCore
+
+
+Unit testing
+Setup
+dotnet new xunit -n SprintFlow.Tests
+dotnet sln add SprintFlow.Tests/SprintFlow.Tests.csproj
+dotnet add SprintFlow.Tests reference SprintFlow.Application
+dotnet add SprintFlow.Tests reference SprintFlow.Domain
+dotnet add package Moq
+dotnet add package Microsoft.NET.Test.Sdk
+dotnet add package xunit.runner.visualstudio
+
+Running
+ dotnet test --verbosity normal
+
+ Coverag
+
+View Coverage Report
+You’ll find output like:
+
+arduino
+Copy
+Edit
+Test run for SprintFlow.Tests.dll (.NETCoreApp,Version=v8.0)
+Results File:  ...TestResults\<some_id>\coverage.cobertura.xml
+You can view it in:
+
+🔵 Option 1: VS Code (Recommended)
+Install the Coverage Gutters extension.
+
+Open your solution in VS Code.
+
+In command palette (Ctrl+Shift+P) → select Coverage Gutters: Display Coverage.
+
+Point it to the .cobertura.xml file — you’ll see lines highlighted in green/red showing tested/untested code.
+
+🔵 Option 2: Report Generator (HTML report)
+Generate a full HTML report with:
+
+bash
+Copy
+Edit
+dotnet tool install --global dotnet-reportgenerator-globaltool
+reportgenerator -reports:**/coverage.cobertura.xml -targetdir:coveragereport -reporttypes:Html
+Open coveragereport/index.html in your browser.
+
+ dotnet add package coverlet.collector
+
+ dotnet test --collect:"XPlat Code Coverage"
+
+dotnet add package coverlet.msbuild
+dotnet test /p:CollectCoverage=true /p:Threshold=80 /p:ThresholdType=line
+Threshold=80 → You must have at least 80% line coverage
+
+ThresholdType=line → You’re checking line-level coverage
