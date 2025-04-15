@@ -14,8 +14,9 @@ builder.Services.AddSwaggerGen();
 
 // 🔧 Register InMemory Repository
 builder.Services.AddSingleton<IProjectRepository, InMemoryProjectRepository>();
-
 builder.Services.AddScoped<ProjectService>();
+builder.Services.AddSingleton<IBoardRepository, InMemoryBoardRepository>();
+builder.Services.AddScoped<BoardService>();
 
 var app = builder.Build();
 
